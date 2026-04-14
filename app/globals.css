@@ -88,6 +88,10 @@ img {
   min-width: 0;
 }
 
+.mobile-only {
+  display: inline-flex;
+}
+
 .public-shell {
   max-width: 1180px;
 }
@@ -242,6 +246,42 @@ img {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.mobile-drawer-toggle {
+  display: inline-grid;
+}
+
+.mobile-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: rgba(25, 16, 19, 0.42);
+  backdrop-filter: blur(4px);
+}
+
+.mobile-drawer-sheet {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(88vw, 360px);
+  height: 100%;
+  padding: 18px 16px 110px;
+  overflow-y: auto;
+  background: linear-gradient(180deg, rgba(255, 252, 249, 0.98), rgba(248, 240, 235, 0.98));
+  box-shadow: 0 20px 40px rgba(18, 8, 11, 0.22);
+}
+
+.mobile-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.mobile-drawer-body {
+  display: grid;
+  gap: 16px;
 }
 
 .brand-lockup {
@@ -1661,6 +1701,11 @@ img {
     display: block;
     position: sticky;
     top: 24px;
+  }
+
+  .mobile-only,
+  .mobile-drawer-toggle {
+    display: none;
   }
 
   .mobile-nav,

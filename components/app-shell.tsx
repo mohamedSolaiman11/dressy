@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { requireTenantContext } from "@/lib/tenant";
 import { AtelierSwitcher } from "@/components/atelier-switcher";
+import { MobileSidebarDrawer } from "@/components/mobile-sidebar-drawer";
 import { StorefrontCopyButton } from "@/components/storefront-copy-button";
 import {
   BellIcon,
@@ -62,91 +63,96 @@ export async function AppShell({
   const avatarLabel = displayName.slice(0, 1);
   const storefrontPath = activeAtelier ? `/s/${activeAtelier.publicSlug}` : "";
 
+  const sidebarContent = (
+    <>
+      <div className="sidebar-card">
+        <div className="brand-lockup">
+          <div className="brand-mark">ف</div>
+          <div>
+            <h1 className="brand-title">{atelierProfile.name}</h1>
+            <p className="brand-subtitle">{activeAtelier?.label ?? "اختاري فرع"}</p>
+          </div>
+        </div>
+
+        {activeAtelier ? (
+          <AtelierSwitcher ateliers={ateliers} activeAtelierId={activeAtelier.id} />
+        ) : null}
+
+        <div className="sidebar-nav">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`sidebar-link ${isActive(currentPath, item.href) ? "active" : ""}`}
+              >
+                <span>{isActive(currentPath, item.href) ? "●" : ""}</span>
+                <span className="sidebar-link-main">
+                  <Icon />
+                  <span>{item.label}</span>
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+
+        <div className="desktop-cta">
+          <Link href="/bookings/new" className="pill-button primary">
+            <PlusIcon />
+            حجز جديد
+          </Link>
+        </div>
+
+        <div className="inline-actions" style={{ marginTop: 12 }}>
+          <Link href="/ateliers/new" className="ghost-button">
+            إضافة فرع
+          </Link>
+        </div>
+
+        <form action="/auth/signout" method="post" style={{ marginTop: 12 }}>
+          <button type="submit" className="ghost-button" style={{ width: "100%" }}>
+            خروج
+          </button>
+        </form>
+      </div>
+
+      <div className="sidebar-card" style={{ marginTop: 16 }}>
+        <div className="section-title" style={{ fontSize: 20 }}>
+          تنبيه سريع
+        </div>
+        <p className="section-copy" style={{ marginTop: 8 }}>
+          الفرع الحالي: {activeAtelier?.label ?? "مفيش فرع مختار"}.
+        </p>
+        {activeAtelier ? (
+          <div className="storefront-link-card">
+            <strong>الرابط العام</strong>
+            <a href={storefrontPath} className="storefront-link" dir="ltr">
+              {storefrontPath}
+            </a>
+            <StorefrontCopyButton storefrontPath={storefrontPath} />
+          </div>
+        ) : null}
+      </div>
+    </>
+  );
+
   return (
     <div className="page-shell">
       <div className="app-layout">
-        <aside className="app-sidebar">
-          <div className="sidebar-card">
-            <div className="brand-lockup">
-              <div className="brand-mark">ف</div>
-              <div>
-                <h1 className="brand-title">{atelierProfile.name}</h1>
-                <p className="brand-subtitle">{activeAtelier?.label ?? "اختاري فرع"}</p>
-              </div>
-            </div>
-
-            {activeAtelier ? (
-              <AtelierSwitcher ateliers={ateliers} activeAtelierId={activeAtelier.id} />
-            ) : null}
-
-            <div className="sidebar-nav">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`sidebar-link ${
-                      isActive(currentPath, item.href) ? "active" : ""
-                    }`}
-                  >
-                    <span>{isActive(currentPath, item.href) ? "●" : ""}</span>
-                    <span className="sidebar-link-main">
-                      <Icon />
-                      <span>{item.label}</span>
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
-
-            <div className="desktop-cta">
-              <Link href="/bookings/new" className="pill-button primary">
-                <PlusIcon />
-                حجز جديد
-              </Link>
-            </div>
-
-            <div className="inline-actions" style={{ marginTop: 12 }}>
-              <Link href="/ateliers/new" className="ghost-button">
-                إضافة فرع
-              </Link>
-            </div>
-
-            <form action="/auth/signout" method="post" style={{ marginTop: 12 }}>
-              <button type="submit" className="ghost-button" style={{ width: "100%" }}>
-                خروج
-              </button>
-            </form>
-          </div>
-
-          <div className="sidebar-card" style={{ marginTop: 16 }}>
-            <div className="section-title" style={{ fontSize: 20 }}>
-              تنبيه سريع
-            </div>
-            <p className="section-copy" style={{ marginTop: 8 }}>
-              الفرع الحالي: {activeAtelier?.label ?? "مفيش فرع مختار"}.
-            </p>
-            {activeAtelier ? (
-              <div className="storefront-link-card">
-                <strong>الرابط العام</strong>
-                <a href={storefrontPath} className="storefront-link" dir="ltr">
-                  {storefrontPath}
-                </a>
-                <StorefrontCopyButton storefrontPath={storefrontPath} />
-              </div>
-            ) : null}
-          </div>
-        </aside>
+        <aside className="app-sidebar">{sidebarContent}</aside>
 
         <main className="app-main">
           <header className="topbar">
             <div className="topbar-side">
+              <div className="mobile-only">
+                <MobileSidebarDrawer>{sidebarContent}</MobileSidebarDrawer>
+              </div>
               <form action="/auth/signout" method="post">
                 <button
                   type="submit"
-                  className="ghost-button"
+                  className="ghost-button topbar-signout"
                   style={{ minHeight: 46, paddingInline: 14 }}
                 >
                   خروج
@@ -194,9 +200,7 @@ export async function AppShell({
               <Link
                 key={item.href}
                 href={item.href}
-                className={`nav-link ${
-                  isActive(currentPath, item.href) ? "active" : ""
-                }`}
+                className={`nav-link ${isActive(currentPath, item.href) ? "active" : ""}`}
               >
                 <Icon />
                 <span>{item.label}</span>
