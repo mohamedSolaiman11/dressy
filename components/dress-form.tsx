@@ -464,7 +464,7 @@ export function DressForm({ mode, baseDress, dataSource }: DressFormProps) {
                   setName(event.target.value);
                   setSaveState("idle");
                 }}
-                placeholder='مثال: فستان سواريه "روز"'
+                placeholder='مثال: فستان سواريه "بودر"'
               />
             </Field>
 

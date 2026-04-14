@@ -58,21 +58,22 @@ export type Booking = {
   paymentStatus: PaymentStatus;
   note: string;
   fittingStage: string;
+  bookingSource?: "admin" | "website";
 };
 
 export const today = getEgyptTodayIso();
 
 export const atelierProfile = {
-  name: "أتيليه روز",
-  owner: "أمنية نبيله",
+  name: "منصة الفساتين",
+  owner: "صاحبة الحساب",
   phone: "01000011223"
 };
 
 export const dresses: Dress[] = [
   {
     id: "rose-2024-01",
-    code: "ROSE-2024-01",
-    name: 'فستان سواريه "روز فيلفت"',
+    code: "POWDER-2024-01",
+    name: 'فستان سواريه "بودر فيلفت"',
     category: "سواريه",
     size: "M (38-40)",
     color: "وردي بودري",
@@ -164,7 +165,7 @@ export const customers: Customer[] = [
     name: "نورهان علي",
     phone: "01298765432",
     area: "المهندسين",
-    lastDress: 'فستان سهرة "روز فيلفت"',
+    lastDress: 'فستان سهرة "بودر فيلفت"',
     historyCount: 1,
     balanceDue: 2200,
     preferredSize: "S",
@@ -226,8 +227,8 @@ export const bookings: Booking[] = [
     dressId: "rose-2024-01",
     customerName: "نورهان علي",
     phone: "01298765432",
-    dressName: 'فستان سواريه "روز فيلفت"',
-    dressCode: "ROSE-2024-01",
+    dressName: 'فستان سواريه "بودر فيلفت"',
+    dressCode: "POWDER-2024-01",
     pickupDate: "2026-04-08",
     returnDate: "2026-04-09",
     timeLabel: "06:00 م",

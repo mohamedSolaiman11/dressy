@@ -52,6 +52,11 @@ export default async function BookingDetailPage({
                 <p className="section-copy">
                   {customer?.name} - {booking.phone}
                 </p>
+                {booking.bookingSource === "website" ? (
+                  <div className="helper-text" style={{ marginTop: 8 }}>
+                    <span className="source-badge">الطلب جاي من الموقع</span>
+                  </div>
+                ) : null}
               </div>
               <StatusPill
                 tone={

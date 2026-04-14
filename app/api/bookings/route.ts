@@ -210,7 +210,7 @@ export async function POST(request: Request) {
     .eq("id", dress.id)
     .eq("atelier_id", activeAtelier.id);
 
-  revalidatePath("/");
+  revalidatePath("/dashboard");
   revalidatePath("/bookings");
   revalidatePath("/bookings/new");
   revalidatePath("/calendar");

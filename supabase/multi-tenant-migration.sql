@@ -5,8 +5,29 @@ create table if not exists public.ateliers (
   id uuid primary key default gen_random_uuid(),
   name text not null,
   branch_name text,
+  public_slug text not null unique default concat('store-', substr(gen_random_uuid()::text, 1, 8)),
   created_at timestamptz not null default timezone('utc', now())
 );
+
+alter table public.ateliers add column if not exists public_slug text;
+
+update public.ateliers
+set public_slug = concat('store-', substr(id::text, 1, 8))
+where public_slug is null or public_slug = '';
+
+alter table public.ateliers alter column public_slug set not null;
+
+do $$
+begin
+  if not exists (
+    select 1
+    from pg_constraint
+    where conname = 'ateliers_public_slug_key'
+  ) then
+    alter table public.ateliers
+      add constraint ateliers_public_slug_key unique (public_slug);
+  end if;
+end $$;
 
 create table if not exists public.atelier_memberships (
   id uuid primary key default gen_random_uuid(),

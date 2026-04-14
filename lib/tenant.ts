@@ -16,6 +16,7 @@ export type AppAtelier = {
   branchName: string;
   label: string;
   role: string;
+  publicSlug: string;
 };
 
 type SupabaseServerClient = Awaited<ReturnType<typeof createSupabaseServerClient>>;
@@ -34,6 +35,7 @@ type MembershipRow = {
     id: string;
     name: string;
     branch_name: string | null;
+    public_slug: string;
   } | null;
 };
 
@@ -71,7 +73,8 @@ async function loadTenantContext(): Promise<TenantContext> {
         atelier:ateliers!atelier_memberships_atelier_id_fkey (
           id,
           name,
-          branch_name
+          branch_name,
+          public_slug
         )
       `
     )
@@ -95,7 +98,8 @@ async function loadTenantContext(): Promise<TenantContext> {
         name: atelier.name,
         branchName: atelier.branch_name ?? "",
         label,
-        role: row.role
+        role: row.role,
+        publicSlug: atelier.public_slug
       } satisfies AppAtelier;
     });
 

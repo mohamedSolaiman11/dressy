@@ -5,6 +5,7 @@ create table if not exists public.ateliers (
   id uuid primary key default gen_random_uuid(),
   name text not null,
   branch_name text,
+  public_slug text not null unique,
   created_at timestamptz not null default timezone('utc', now())
 );
 

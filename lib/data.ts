@@ -94,6 +94,11 @@ function mapDressRow(row: DressRow): Dress {
 }
 
 function mapBookingRow(row: BookingRow): Booking {
+  const bookingSource =
+    row.fitting_stage === "حجز من العميلة" || row.note.includes("حجز من الكتالوج العام")
+      ? ("website" as const)
+      : ("admin" as const);
+
   return {
     id: row.id,
     customerId: row.customer_id,
@@ -110,7 +115,8 @@ function mapBookingRow(row: BookingRow): Booking {
     total: row.total,
     paymentStatus: row.payment_status,
     note: row.note,
-    fittingStage: row.fitting_stage
+    fittingStage: row.fitting_stage,
+    bookingSource
   };
 }
 

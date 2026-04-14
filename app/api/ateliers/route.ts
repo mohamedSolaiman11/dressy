@@ -7,12 +7,35 @@ import {
   hasSupabasePublicEnv,
   hasSupabaseServiceRoleEnv
 } from "@/lib/supabase/env";
+import { createAtelierSlug, slugifySegment } from "@/lib/slug";
 
 type AtelierPayload = {
   name?: string;
   branchName?: string;
+  publicSlug?: string;
   claimExistingData?: boolean;
 };
+
+async function ensureUniqueSlug(baseSlug: string) {
+  const admin = createSupabaseAdminClient();
+  let nextSlug = baseSlug || createAtelierSlug("store");
+  let counter = 1;
+
+  while (true) {
+    const { data } = await admin
+      .from("ateliers")
+      .select("id")
+      .eq("public_slug", nextSlug)
+      .maybeSingle();
+
+    if (!data) {
+      return nextSlug;
+    }
+
+    counter += 1;
+    nextSlug = `${baseSlug}-${counter}`;
+  }
+}
 
 export async function POST(request: Request) {
   if (!hasSupabasePublicEnv() || !hasSupabaseServiceRoleEnv()) {
@@ -36,6 +59,7 @@ export async function POST(request: Request) {
   const name = body.name?.trim() ?? "";
   const branchName = body.branchName?.trim() ?? "";
   const claimExistingData = Boolean(body.claimExistingData);
+  const requestedSlug = slugifySegment(body.publicSlug?.trim() ?? "");
 
   if (!name) {
     return NextResponse.json(
@@ -44,11 +68,14 @@ export async function POST(request: Request) {
     );
   }
 
+  const publicSlug = await ensureUniqueSlug(requestedSlug || createAtelierSlug(name, branchName));
+
   const { data: atelier, error: atelierError } = await admin
     .from("ateliers")
     .insert({
       name,
-      branch_name: branchName || null
+      branch_name: branchName || null,
+      public_slug: publicSlug
     })
     .select("*")
     .single();
@@ -76,6 +103,8 @@ export async function POST(request: Request) {
 
   const response = NextResponse.json({
     id: atelier.id,
+    publicSlug,
+    storefrontPath: `/s/${publicSlug}`,
     message: "تم إنشاء الفرع بنجاح."
   });
 
@@ -88,11 +117,13 @@ export async function POST(request: Request) {
   });
 
   revalidatePath("/");
+  revalidatePath("/dashboard");
   revalidatePath("/bookings");
   revalidatePath("/customers");
   revalidatePath("/dresses");
   revalidatePath("/calendar");
   revalidatePath("/onboarding");
+  revalidatePath(`/s/${publicSlug}`);
 
   return response;
 }

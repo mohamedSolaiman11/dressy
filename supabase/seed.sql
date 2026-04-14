@@ -13,7 +13,7 @@ set
 
 insert into public.dresses (id, code, name, category, size, color, price, status, image_tone, notes)
 values
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'ROSE-2024-01', 'فستان سواريه "روز فيلفت"', 'سواريه', 'M (38-40)', 'وردي بودري', 4500, 'محجوز', 'rose', 'خفيف ومريح في اللبس، مناسب للسهرات والقاعات المقفولة.'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'POWDER-2024-01', 'فستان سواريه "بودر فيلفت"', 'سواريه', 'M (38-40)', 'وردي بودري', 4500, 'محجوز', 'rose', 'خفيف ومريح في اللبس، مناسب للسهرات والقاعات المقفولة.'),
   ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'SILK-882', 'فستان زفاف "شامبين لايس"', 'زفاف', 'L (40-42)', 'شامبين', 6200, 'محجوز', 'champagne', 'شغل صدر يدوي مع ديل خفيف، مناسب للتسليم السريع.'),
   ('cccccccc-cccc-cccc-cccc-cccccccccccc', 'VEL-RED-05', 'فستان سهرة "ريد فلفت"', 'سهرة', 'S (36)', 'أحمر غامق', 5100, 'متاح', 'velvet', 'قماشة مخمل ناعمة وتفصيل يبرز الخصر.'),
   ('dddddddd-dddd-dddd-dddd-dddddddddddd', 'TULLE-PK-12', 'فستان خطوبة "تول بلاش"', 'خطوبة', 'L (42)', 'بينك فاتح', 6000, 'متاح', 'blush', 'مناسب للتصوير والفرح الصغير، سهل التعديل السريع.'),

@@ -4,6 +4,18 @@ import { DataSourceBanner } from "@/components/data-source-banner";
 import { getBookingsData, formatCurrency, formatDateLabel } from "@/lib/data";
 import { PageHero, SectionHeader, StatusPill } from "@/components/ui";
 
+function getStatusTone(status: string) {
+  if (status === "تم التسليم") {
+    return "success" as const;
+  }
+
+  if (status === "محجوز") {
+    return "warning" as const;
+  }
+
+  return "default" as const;
+}
+
 export default async function BookingsPage() {
   const { bookings, source } = await getBookingsData();
 
@@ -26,6 +38,12 @@ export default async function BookingsPage() {
           copy="عرض واضح مناسب للموبايل وفيه أهم المعلومات مباشرة."
         />
 
+        <div className="status-legend">
+          <StatusPill tone="warning">محجوز</StatusPill>
+          <StatusPill tone="success">تم التسليم</StatusPill>
+          <StatusPill>تم الاسترجاع</StatusPill>
+        </div>
+
         <div className="booking-list">
           {bookings.map((booking) => (
             <article key={booking.id} className="booking-card">
@@ -35,20 +53,15 @@ export default async function BookingsPage() {
                   <div>
                     <div className="card-title">{booking.customerName}</div>
                     <div className="card-subtitle">{booking.phone}</div>
+                    {booking.bookingSource === "website" ? (
+                      <div className="helper-text" style={{ marginTop: 8 }}>
+                        <span className="source-badge">من الموقع</span>
+                      </div>
+                    ) : null}
                   </div>
                 </div>
 
-                <StatusPill
-                  tone={
-                    booking.status === "تم التسليم"
-                      ? "success"
-                      : booking.status === "محجوز"
-                        ? "warning"
-                        : "default"
-                  }
-                >
-                  {booking.status}
-                </StatusPill>
+                <StatusPill tone={getStatusTone(booking.status)}>{booking.status}</StatusPill>
               </div>
 
               <div className="detail-list">

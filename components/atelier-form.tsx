@@ -12,6 +12,7 @@ export function AtelierForm({
   const router = useRouter();
   const [name, setName] = useState("");
   const [branchName, setBranchName] = useState("");
+  const [publicSlug, setPublicSlug] = useState("");
   const [claimExistingData, setClaimExistingData] = useState(mode === "onboarding");
   const [saveState, setSaveState] = useState<"idle" | "saving" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
@@ -34,11 +35,12 @@ export function AtelierForm({
       body: JSON.stringify({
         name,
         branchName,
+        publicSlug,
         claimExistingData
       })
     });
 
-    const payload = (await response.json()) as { message?: string };
+    const payload = (await response.json()) as { message?: string; storefrontPath?: string };
 
     if (!response.ok) {
       setSaveState("error");
@@ -47,8 +49,12 @@ export function AtelierForm({
     }
 
     setSaveState("success");
-    setMessage(payload.message ?? "تم إنشاء الفرع.");
-    router.push("/");
+    setMessage(
+      payload.storefrontPath
+        ? `${payload.message ?? "تم إنشاء الفرع."} الرابط العام: ${payload.storefrontPath}`
+        : payload.message ?? "تم إنشاء الفرع."
+    );
+    router.push("/dashboard");
     router.refresh();
   }
 
@@ -61,7 +67,8 @@ export function AtelierForm({
               {mode === "onboarding" ? "ابدئي بأول أتيليه/فرع" : "إضافة فرع جديد"}
             </h2>
             <p className="section-copy">
-              حسابك يقدر يدير أكتر من فرع. اختاري اسم الأتيليه واسم الفرع لو محتاجة.
+              حسابك يقدر يدير أكتر من فرع. اختاري اسم الأتيليه واسم الفرع ولو حابة حددي رابط
+              العرض العام.
             </p>
           </div>
           <StatusPill>{mode === "onboarding" ? "بداية" : "فرع جديد"}</StatusPill>
@@ -76,7 +83,7 @@ export function AtelierForm({
                 setName(event.target.value);
                 setSaveState("idle");
               }}
-              placeholder="مثال: أتيليه روز"
+              placeholder="مثال: منصة الفساتين"
             />
           </Field>
 
@@ -93,6 +100,27 @@ export function AtelierForm({
           </Field>
         </div>
 
+        <Field
+          label="الرابط العام"
+          help="اختياري. اكتبيه بحروف إنجليزي وأرقام فقط. لو سبتيه فاضي هنعمله تلقائي."
+        >
+          <div className="slug-field">
+            <span className="slug-prefix" dir="ltr">
+              /s/
+            </span>
+            <input
+              className="text-field"
+              dir="ltr"
+              value={publicSlug}
+              onChange={(event) => {
+                setPublicSlug(event.target.value);
+                setSaveState("idle");
+              }}
+              placeholder="rose-nasr-city"
+            />
+          </div>
+        </Field>
+
         {mode === "onboarding" ? (
           <label className="selection-card active" style={{ display: "flex", gap: 12, marginTop: 16 }}>
             <input
@@ -106,7 +134,7 @@ export function AtelierForm({
             <div>
               <strong>نقل البيانات القديمة لأول فرع</strong>
               <div className="helper-text">
-                فعّليها لو عندك بيانات حالية بدون فروع وعايزة تضمّيها للفرع الأول.
+                فعّليها لو عندك بيانات حالية بدون فروع وعايزة تضميها للفرع الأول.
               </div>
             </div>
           </label>

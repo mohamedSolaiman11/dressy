@@ -2,16 +2,16 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "أتيليه روز",
-  description: "نموذج واجهة إدارة أتيليه موبايل-أول للعربي RTL",
-  applicationName: "أتيليه روز",
+  title: "منصة الفساتين",
+  description: "منصة عربية بسيطة لإدارة وتأجير الفساتين",
+  applicationName: "منصة الفساتين",
   icons: {
     icon: "/icon.svg",
     apple: "/apple-icon.svg"
   },
   appleWebApp: {
     capable: true,
-    title: "أتيليه روز",
+    title: "منصة الفساتين",
     statusBarStyle: "default"
   },
   manifest: "/manifest.webmanifest"

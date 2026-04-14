@@ -44,6 +44,13 @@ body {
   color: var(--text);
 }
 
+body:has(.public-shell) {
+  background:
+    radial-gradient(circle at top right, rgba(240, 203, 184, 0.42), transparent 24%),
+    radial-gradient(circle at bottom left, rgba(157, 92, 104, 0.12), transparent 26%),
+    linear-gradient(180deg, #fffefc 0%, #faf4ee 100%);
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -79,6 +86,148 @@ img {
 
 .app-main {
   min-width: 0;
+}
+
+.public-shell {
+  max-width: 1180px;
+}
+
+.public-topbar,
+.public-brand,
+.public-topbar-actions,
+.status-legend,
+.field-icon-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.public-topbar {
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.public-brand {
+  gap: 12px;
+}
+
+.public-topbar-actions,
+.status-legend {
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.public-dress-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(252, 246, 241, 0.94));
+}
+
+.public-dress-price {
+  color: var(--primary);
+  font-size: 18px;
+}
+
+.public-help-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.public-filter-panel,
+.upcoming-bookings-list {
+  display: grid;
+  gap: 12px;
+}
+
+.public-booking-summary {
+  justify-content: space-between;
+}
+
+.source-badge,
+.mini-booking-chip {
+  min-height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.source-badge {
+  background: rgba(79, 143, 103, 0.12);
+  color: var(--success);
+}
+
+.mini-booking-chip {
+  background: rgba(157, 92, 104, 0.08);
+  color: var(--primary);
+}
+
+.storefront-link-card {
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.storefront-link {
+  display: block;
+  margin-top: 8px;
+  color: var(--primary);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.storefront-copy-button {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.public-detail-layout {
+  margin-top: 24px;
+}
+
+.field-icon-wrap {
+  position: relative;
+}
+
+.field-leading-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-soft);
+}
+
+.with-leading-icon {
+  padding-right: 48px;
+}
+
+.success-card {
+  text-align: center;
+}
+
+.success-card .soft-icon {
+  margin: 0 auto 16px;
+}
+
+.slug-field {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.slug-prefix {
+  min-height: 54px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 16px;
+  border-radius: 18px;
+  background: rgba(157, 92, 104, 0.08);
+  color: var(--primary);
+  font-weight: 700;
 }
 
 .topbar {
@@ -1154,6 +1303,10 @@ img {
   color: var(--text-soft);
 }
 
+.status-legend {
+  margin-bottom: 14px;
+}
+
 .legend-item {
   display: inline-flex;
   align-items: center;
@@ -1487,6 +1640,11 @@ img {
   .login-wrap {
     grid-template-columns: 1.08fr 0.92fr;
   }
+
+  .public-help-panel {
+    grid-template-columns: 1.4fr auto;
+    align-items: center;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -1528,5 +1686,9 @@ img {
 
   .hero-card {
     padding: 28px;
+  }
+
+  .public-shell {
+    padding-top: 32px;
   }
 }

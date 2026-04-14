@@ -14,7 +14,7 @@ export default async function LoginPage() {
     <main className="login-screen">
       <div className="login-wrap">
         <section className="login-brand">
-          <div className="brand-mark">ر</div>
+          <div className="brand-mark">ف</div>
           <h1>{atelierProfile.name}</h1>
           <p>
             سيستم عربي بسيط لصاحبة الأتيليه.

@@ -14,14 +14,14 @@ export default async function OnboardingPage() {
   const tenant = await getTenantContext();
 
   if (tenant.activeAtelier) {
-    redirect("/");
+    redirect("/dashboard");
   }
 
   return (
     <main className="login-screen">
       <div className="login-wrap">
         <section className="login-brand">
-          <div className="brand-mark">ر</div>
+          <div className="brand-mark">ف</div>
           <h1>{atelierProfile.name}</h1>
           <p>
             خلّينا نجهز أول أتيليه أو فرع على الحساب.

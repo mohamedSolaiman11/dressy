@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "أتيليه روز",
-    short_name: "أتيليه",
-    description: "واجهة إدارة أتيليه لتأجير فساتين الزفاف والسواريه",
+    name: "منصة الفساتين",
+    short_name: "الفساتين",
+    description: "منصة عربية لإدارة وتأجير فساتين الزفاف والسواريه",
     start_url: "/",
     display: "standalone",
     background_color: "#f8f2ee",

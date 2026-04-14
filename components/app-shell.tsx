@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { requireTenantContext } from "@/lib/tenant";
 import { AtelierSwitcher } from "@/components/atelier-switcher";
+import { StorefrontCopyButton } from "@/components/storefront-copy-button";
 import {
   BellIcon,
   BookingIcon,
@@ -22,7 +23,7 @@ type AppShellProps = {
 
 const navItems = [
   {
-    href: "/",
+    href: "/dashboard",
     label: "الرئيسية",
     icon: HomeIcon
   },
@@ -49,10 +50,6 @@ const navItems = [
 ];
 
 function isActive(pathname: string, href: string) {
-  if (href === "/") {
-    return pathname === "/";
-  }
-
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
@@ -63,6 +60,7 @@ export async function AppShell({
 }: AppShellProps) {
   const { activeAtelier, ateliers, displayName } = await requireTenantContext();
   const avatarLabel = displayName.slice(0, 1);
+  const storefrontPath = activeAtelier ? `/s/${activeAtelier.publicSlug}` : "";
 
   return (
     <div className="page-shell">
@@ -70,7 +68,7 @@ export async function AppShell({
         <aside className="app-sidebar">
           <div className="sidebar-card">
             <div className="brand-lockup">
-              <div className="brand-mark">ر</div>
+              <div className="brand-mark">ف</div>
               <div>
                 <h1 className="brand-title">{atelierProfile.name}</h1>
                 <p className="brand-subtitle">{activeAtelier?.label ?? "اختاري فرع"}</p>
@@ -130,6 +128,15 @@ export async function AppShell({
             <p className="section-copy" style={{ marginTop: 8 }}>
               الفرع الحالي: {activeAtelier?.label ?? "مفيش فرع مختار"}.
             </p>
+            {activeAtelier ? (
+              <div className="storefront-link-card">
+                <strong>الرابط العام</strong>
+                <a href={storefrontPath} className="storefront-link" dir="ltr">
+                  {storefrontPath}
+                </a>
+                <StorefrontCopyButton storefrontPath={storefrontPath} />
+              </div>
+            ) : null}
           </div>
         </aside>
 

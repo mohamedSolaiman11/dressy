@@ -47,18 +47,21 @@ export type Database = {
           created_at: string;
           id: string;
           name: string;
+          public_slug: string;
         };
         Insert: {
           branch_name?: string | null;
           created_at?: string;
           id?: string;
           name: string;
+          public_slug?: string;
         };
         Update: {
           branch_name?: string | null;
           created_at?: string;
           id?: string;
           name?: string;
+          public_slug?: string;
         };
         Relationships: [];
       };
